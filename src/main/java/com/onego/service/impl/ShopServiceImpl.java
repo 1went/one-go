@@ -59,12 +59,12 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
     }
 
     @Override
-    public Result queryShopByType(Integer typeId, Integer current, Double x, Double y, String scoreBy) {
+    public Result queryShopByType(Integer typeId, Integer current, Double x, Double y, String sortBy) {
         if (x == null || y == null) {
             // 不需要根据坐标查询
             Page<Shop> page = this.query()
                     .eq("type_id", typeId)
-                    .orderByDesc(StrUtil.isNotBlank(scoreBy), scoreBy)
+                    .orderByDesc(StrUtil.isNotBlank(sortBy), sortBy)
                     .page(new Page<>(current, SystemConstants.DEFAULT_PAGE_SIZE));
             return Result.ok(page.getRecords());
         }

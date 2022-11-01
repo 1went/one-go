@@ -60,9 +60,14 @@ public class BlogComments implements Serializable {
     private Integer liked;
 
     /**
-     * 状态，0：正常，1：被举报，2：禁止查看
+     * 状态，1：正常
      */
     private Boolean status;
+
+    /**
+     * 评分1-5，只有评论博客时才可打分，乘以10保存
+     */
+    private Integer score;
 
     /**
      * 创建时间

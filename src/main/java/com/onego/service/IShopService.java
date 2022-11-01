@@ -28,7 +28,7 @@ public interface IShopService extends IService<Shop> {
      * @param current 当前页
      * @param x       所在地区经度
      * @param y       所在地区的维度
-     * @param scoreBy 排序字段
+     * @param sortBy 排序字段
      */
-    Result queryShopByType(Integer typeId, Integer current, Double x, Double y, String scoreBy);
+    Result queryShopByType(Integer typeId, Integer current, Double x, Double y, String sortBy);
 }
