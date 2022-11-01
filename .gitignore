@@ -3,7 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-src/resources/db
+src/resources/db/
 ### STS ###
 .apt_generated
 .classpath
