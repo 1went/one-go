@@ -5,9 +5,9 @@ spring:
     name: onego
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/xxx
-    username: xxxxx
-    password: xxxxx
+    url: jdbc:mysql://localhost:3306/hmdb?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
   redis:
     host: 127.0.0.1
     port: 6379
@@ -18,7 +18,6 @@ spring:
         min-idle: 1
         time-between-eviction-runs: 10s
     database: 1
-    password: xxxx
   jackson:
     default-property-inclusion: non_null # JSON处理时忽略非空字段
 mybatis-plus:
