@@ -63,7 +63,7 @@ public class ShopController {
      * @param current 页码
      * @param x 所在地区的经度
      * @param y 所在地区的维度
-     * @param scoreBy 排序字段
+     * @param sortBy 排序字段
      * @return 商铺列表
      */
     @GetMapping("/of/type")

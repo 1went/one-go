@@ -1,7 +1,6 @@
 package com.onego.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.onego.entity.User;
 import com.onego.entity.UserInfo;
 import com.onego.entity.dto.Result;
 import com.onego.entity.dto.UserDTO;
@@ -24,7 +23,14 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     public Result userInfoEdit(UserUpdateDTO userUpdateDTO) {
         UserDTO user = UserHolder.getUser();
         UpdateWrapper<UserInfo> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set(userUpdateDTO.getType(), userUpdateDTO.getContent()).eq("id", user.getId());
+        String type = userUpdateDTO.getType();
+        String content = userUpdateDTO.getContent();
+        if ("gender".equals(type)) {
+            updateWrapper.set(type, "男".equals(content));
+        } else {
+            updateWrapper.set(type, content);
+        }
+        updateWrapper.eq("user_id", user.getId());
         return update(updateWrapper) ? Result.ok() : Result.fail("修改失败");
     }
 }

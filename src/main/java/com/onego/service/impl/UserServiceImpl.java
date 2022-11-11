@@ -7,12 +7,14 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.onego.entity.UserInfo;
 import com.onego.entity.dto.LoginFormDTO;
 import com.onego.entity.dto.Result;
 import com.onego.entity.dto.UserDTO;
 import com.onego.entity.User;
 import com.onego.entity.dto.UserUpdateDTO;
 import com.onego.mapper.UserMapper;
+import com.onego.service.IUserInfoService;
 import com.onego.service.IUserService;
 import com.onego.utils.PasswordEncoder;
 import com.onego.utils.RegexUtils;
@@ -23,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.BitFieldSubCommands;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +47,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private IUserInfoService userInfoService;
 
     @Override
     public Result sendCode(String phone, Integer type) {
@@ -68,6 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * 设置无操作过期时间30min。如果用户有操作，将在拦截器{@see com.hmdp.config.interceptor.LoginInterceptor}里重新设置30min过期时间<br/>
      */
     @Override
+    @Transactional
     public Result login(LoginFormDTO loginForm) {
         // 参数校验
         String phone = loginForm.getPhone();
@@ -81,6 +88,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (user == null) {
             // insert and return a new user if the user dose not exist
             user = createUserWithPhone(phone);
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserId(user.getId());
+            userInfo.setGender(Boolean.TRUE);
+            userInfoService.save(userInfo);
         }
         return genTokenAndReturn(user);
     }
