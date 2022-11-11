@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.onego.entity.dto.LoginFormDTO;
 import com.onego.entity.dto.Result;
 import com.onego.entity.User;
+import com.onego.entity.dto.UserUpdateDTO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,4 +48,9 @@ public interface IUserService extends IService<User> {
      * 忘记密码
      */
     Result reset(LoginFormDTO loginForm);
+
+    /**
+     * 修改用户基本信息
+     */
+    Result userEdit(UserUpdateDTO userUpdateDTO, HttpServletRequest request);
 }

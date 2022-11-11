@@ -2,15 +2,15 @@ package com.onego.service;
 
 import com.onego.entity.UserInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.onego.entity.dto.Result;
+import com.onego.entity.dto.UserUpdateDTO;
 
 /**
  * <p>
  *  服务类
  * </p>
- *
- * @author 虎哥
- * @since 2021-12-24
  */
 public interface IUserInfoService extends IService<UserInfo> {
 
+    Result userInfoEdit(UserUpdateDTO userUpdateDTO);
 }

@@ -5,11 +5,13 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.onego.entity.dto.LoginFormDTO;
 import com.onego.entity.dto.Result;
 import com.onego.entity.dto.UserDTO;
 import com.onego.entity.User;
+import com.onego.entity.dto.UserUpdateDTO;
 import com.onego.mapper.UserMapper;
 import com.onego.service.IUserService;
 import com.onego.utils.PasswordEncoder;
@@ -173,6 +175,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 重置密码
         user.setPassword(PasswordEncoder.encode(password));
         return this.updateById(user) ? Result.ok() : Result.fail("重置失败");
+    }
+
+    @Override
+    public Result userEdit(UserUpdateDTO userUpdateDTO, HttpServletRequest request) {
+        UserDTO user = UserHolder.getUser();
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(userUpdateDTO.getType(), userUpdateDTO.getContent()).eq("id", user.getId());
+        if (update(updateWrapper)) {
+            String token = (String) request.getAttribute("token");
+            String tokenKey = RedisConstants.LOGIN_USER_KEY + token;
+            stringRedisTemplate.opsForHash().put(tokenKey, "nickName", userUpdateDTO.getContent());
+        }
+        return Result.ok();
+//        return update(updateWrapper) ? Result.ok() : Result.fail("修改失败");
     }
 
     private Result checkParams(String phone, String code, String codeKey, String password) {

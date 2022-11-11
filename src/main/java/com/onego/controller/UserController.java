@@ -8,6 +8,7 @@ import com.onego.entity.dto.Result;
 import com.onego.entity.dto.UserDTO;
 import com.onego.entity.User;
 import com.onego.entity.UserInfo;
+import com.onego.entity.dto.UserUpdateDTO;
 import com.onego.service.IUserInfoService;
 import com.onego.service.IUserService;
 import com.onego.utils.UserHolder;
@@ -119,5 +120,13 @@ public class UserController {
     @GetMapping("/sign/count")
     public Result signCount() {
         return userService.signCount();
+    }
+
+    @PostMapping("/edit")
+    public Result userEdit(@RequestBody UserUpdateDTO userUpdateDTO, HttpServletRequest request) {
+        if (userUpdateDTO.getStatus() == 1) {
+            return userService.userEdit(userUpdateDTO, request);
+        }
+        return userInfoService.userInfoEdit(userUpdateDTO);
     }
 }
