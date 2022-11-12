@@ -10,6 +10,7 @@ import com.onego.entity.User;
 import com.onego.entity.UserInfo;
 import com.onego.entity.dto.UserUpdateDTO;
 import com.onego.service.IUserInfoService;
+import com.onego.service.IUserMessageService;
 import com.onego.service.IUserService;
 import com.onego.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,9 @@ public class UserController {
 
     @Resource
     private IUserInfoService userInfoService;
+
+    @Resource
+    private IUserMessageService userMessageService;
 
     /**
      * 发送手机验证码
@@ -128,5 +132,21 @@ public class UserController {
             return userService.userEdit(userUpdateDTO, request);
         }
         return userInfoService.userInfoEdit(userUpdateDTO);
+    }
+
+    @GetMapping("/mes")
+    public Result myMessages(@RequestParam("status") Integer status) {
+        return userMessageService.myMessages(status);
+    }
+
+    @PostMapping("/mes/read/{id}")
+    public Result readMsg(@PathVariable("id") Integer id) {
+        return userMessageService.readMsg(id);
+    }
+
+    @PostMapping("/mes/del/{id}")
+    public Result delMsg(@PathVariable("id") Integer id) {
+        boolean res = userMessageService.removeById(id);
+        return res ? Result.ok() : Result.fail("删除失败");
     }
 }

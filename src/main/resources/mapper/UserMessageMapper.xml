@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onego.mapper.UserMessageMapper">
+
+    <resultMap id="BaseResultMap" type="com.onego.entity.UserMessage">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="fromId" column="from_id" jdbcType="INTEGER"/>
+            <result property="toId" column="to_id" jdbcType="INTEGER"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="deleted" column="is_deleted" jdbcType="BOOLEAN"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,from_id,to_id,
+        content,status,create_time
+    </sql>
+</mapper>
